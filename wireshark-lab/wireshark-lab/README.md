@@ -35,10 +35,15 @@ Captured and analyzed live network traffic to understand modern internet communi
 - No significant security anomalies detected
 
 ## Screenshots
-*Screenshots stored in `/images` folder:*
-- `protocol-hierarchy.png` - Statistical breakdown of network protocols
-- `http-stream.png` - Complete HTTP request/response analysis  
-- `expert-info.png` - Network anomaly and health analysis
+
+![Protocol Hierarchy](protocol-hierarchy.jpg)
+*Statistical breakdown of network protocols showing 40,000+ packets analyzed*
+
+![HTTP Stream Analysis](http-stream.jpg)  
+*Complete HTTP request/response conversation analysis*
+
+![Expert Information](expert-info.jpg)
+*Network anomaly and health analysis using Wireshark's expert tools*
 
 ## Skills Demonstrated
 - Live packet capture and analysis
