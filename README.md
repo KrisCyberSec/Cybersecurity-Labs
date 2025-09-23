@@ -16,6 +16,12 @@ This repository documents my hands-on cybersecurity learning journey through pra
 - Live server accessible at http://167.71.104.44
 - [View Lab Details](./linux-apache-lab/)
 
+- ### 3. Python Backup Automation Script
+- Developed first Python automation script for file backup operations
+- Learned programming fundamentals and error handling concepts
+- Created timestamped backup system with user feedback
+- [View Lab Details](./python-backup-lab/)
+
 ## Skills Demonstrated
 - Network packet analysis
 - Protocol identification  
