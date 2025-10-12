@@ -109,9 +109,6 @@ Successfully demonstrated exploitation of three critical OWASP Top 10 vulnerabil
 - **Secure Development:** Knowledge of vulnerabilities informs secure coding practices
 - **Risk Management:** Ability to assess and communicate security risks to stakeholders
 
-## Ethical Considerations
-This lab was conducted in a controlled environment using intentionally vulnerable software designed for security training. All testing was performed on locally hosted applications with no unauthorized access to production systems or real user data.
-
 ## Technical Environment
 - **Application:** OWASP Juice Shop (latest version)
 - **Platform:** macOS with Apple Silicon
