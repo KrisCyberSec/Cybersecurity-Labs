@@ -148,7 +148,32 @@ This lab was conducted in a controlled environment using intentionally vulnerabl
    - Use role-based access control (RBAC)
 
 ## Screenshots
-*Screenshots documenting vulnerability exploitation and findings stored in `/images` folder*
 
+### Lab Setup
+![Juice Shop Homepage](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/08-juice-shop-homepage.png)
+*OWASP Juice Shop application homepage*
+
+![Application Startup](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/07-application-startup-terminal.png)
+*Juice Shop successfully deployed on localhost:3000*
+
+### Vulnerability Exploitation
+
+![Score Board](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/06-score-board-overview.png)
+*Score Board showing 172 total security challenges organized by OWASP category*
+
+![SQL Injection Success](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/5-sql-injection-success-banner.png)
+*Successful authentication bypass using SQL injection*
+
+![SQL Injection Terminal](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/04-sql-injection-terminal.png)
+*Terminal confirmation of SQL injection challenge completion*
+
+![XSS Attack](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/03-xss-alert-popup.png)
+*Cross-Site Scripting vulnerability demonstration*
+
+![Challenge Completion](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/02-score-board-challenge-solved.png)
+*Terminal showing multiple challenges solved*
+
+![FTP Directory Exposure](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/01-ftp-directory-exposure.png)
+*Unprotected FTP directory exposing sensitive files including password databases*
 ---
 *Lab completed as part of web application security skills development*
