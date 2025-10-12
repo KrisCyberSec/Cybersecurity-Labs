@@ -27,7 +27,7 @@ This repository documents my hands-on cybersecurity learning journey through pra
 - Demonstrated OWASP Top 10 security flaw identification
 - Performed ethical penetration testing on vulnerable application
 - [View Lab Details](./owasp-web-security-lab/)
-- 
+  
 ## Skills Demonstrated
 - Network packet analysis
 - Protocol identification  
