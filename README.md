@@ -22,6 +22,12 @@ This repository documents my hands-on cybersecurity learning journey through pra
 - Created timestamped backup system with user feedback
 - [View Lab Details](./python-backup-lab/)
 
+### 4. OWASP Web Application Security Testing
+- Exploited SQL injection, XSS, and access control vulnerabilities
+- Demonstrated OWASP Top 10 security flaw identification
+- Performed ethical penetration testing on vulnerable application
+- [View Lab Details](./owasp-web-security-lab/)
+- 
 ## Skills Demonstrated
 - Network packet analysis
 - Protocol identification  
@@ -31,6 +37,9 @@ This repository documents my hands-on cybersecurity learning journey through pra
 - Web server installation and configuration
 - SSH remote access and security
 - Technical documentation
+- Web application penetration testing
+- OWASP Top 10 vulnerability exploitation
+- Application security assessment
 
 ---
 *Learning cybersecurity through hands-on practice*
