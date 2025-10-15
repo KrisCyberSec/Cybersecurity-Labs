@@ -27,6 +27,13 @@ This repository documents my hands-on cybersecurity learning journey through pra
 - Demonstrated OWASP Top 10 security flaw identification
 - Performed ethical penetration testing on vulnerable application
 - [View Lab Details](./owasp-web-security-lab/)
+
+- ### 5. Splunk SIEM Lab - Security Monitoring and Threat Detection
+- Deployed Splunk Cloud SIEM platform for log analysis
+- Investigated brute force attacks and data exfiltration incidents
+- Created security dashboards and detection rules using SPL
+- Detected critical insider threat and prevented external attack
+- [View Lab Details](./splunk-siem-lab/)
   
 ## Skills Demonstrated
 - Network packet analysis
@@ -40,6 +47,11 @@ This repository documents my hands-on cybersecurity learning journey through pra
 - Web application penetration testing
 - OWASP Top 10 vulnerability exploitation
 - Application security assessment
+- SIEM platform operations (Splunk)
+- Splunk Processing Language (SPL)
+- Security log analysis and correlation
+- Threat hunting and incident investigation
+- Security dashboard development
 
 ---
 *Learning cybersecurity through hands-on practice*
