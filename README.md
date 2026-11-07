@@ -28,7 +28,7 @@ Hands-on labs I built while moving from customer-facing sales and technical supp
 ### Network Traffic Analysis with Wireshark
 - Captured and analyzed 40,000+ packets of normal browsing traffic
 - Used protocol filters, stream following, Protocol Hierarchy, and Expert Information
-- [View lab](./wireshark-lab/wireshark-lab/)
+- [View lab](./wireshark-lab/)
 
 ### OWASP Web Application Security Testing
 - Exploited SQL injection, XSS, and an unprotected `/ftp` directory in OWASP Juice Shop, a deliberately vulnerable training app
