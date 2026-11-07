@@ -50,7 +50,12 @@ Created my first Python automation script to backup files, demonstrating program
 - **Error Reporting**: Shows clear success/failure messages
 - **Result Summary**: Displays count of successful and failed operations
 
-### Sample Code (excerpt)
+### The script
+
+[`backup_script.py`](backup_script.py) is a **reconstruction**. I wrote the original in September 2025 and the screenshots below show it running, but I lost the file when I changed macOS accounts. I rebuilt it from those screenshots and from the function I had written up in this README. Two small differences from the original: the imports at the top were not visible in the screenshots, so I added the three the code needs, and the test file path uses `os.path.expanduser("~/Desktop/test_file.txt")` instead of my old hardcoded home folder.
+
+Sample code (excerpt):
+
 ```python
 # Simple function to create backup folder
 def make_backup_folder():
@@ -64,6 +69,21 @@ def make_backup_folder():
         print("Could not create folder")
         return None
 ```
+
+### How to run
+
+```bash
+echo "test" > ~/Desktop/test_file.txt
+python3 backup_script.py
+```
+
+It creates a folder like `backup_20250918_144111` in the directory you run it from, copies `test_file.txt` into it, and prints how many files succeeded and failed. If the test file doesn't exist, it prints "File not found" and counts it as a failure.
+
+### Known limitations
+
+- It backs up one hardcoded file. The list in `files_to_backup` has to be edited by hand.
+- It uses bare `except:` blocks, so it reports that a copy failed but not why.
+- It makes a new folder on every run and never deletes old ones.
 
 ## Screenshots
 
