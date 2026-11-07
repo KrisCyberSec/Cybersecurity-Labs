@@ -74,8 +74,13 @@ def make_backup_folder():
 
 ```bash
 echo "test" > ~/Desktop/test_file.txt
+cd python-backup-lab
 python3 backup_script.py
 ```
+
+Run it from inside `python-backup-lab`, because the backup folder is created in whatever directory you run it from.
+
+**Verified 2026-11-07** on my current Mac account: one file copied, `Successful: 1`, `Failed: 0`, new folder `backup_20261107_130540` containing only `test_file.txt`.
 
 It creates a folder like `backup_20250918_144111` in the directory you run it from, copies `test_file.txt` into it, and prints how many files succeeded and failed. If the test file doesn't exist, it prints "File not found" and counts it as a failure.
 

@@ -45,7 +45,7 @@ Hands-on labs I built while moving from customer-facing sales and technical supp
 - Technical documentation
 
 ## Related projects
-- [infra-health-monitor](https://github.com/KrisCyberSec/infra-health-monitor): simulated server metrics analyzed by an AI monitoring bot
+- [infra-health-monitor](https://github.com/KrisCyberSec/infra-health-monitor): a Python monitor that checks simulated or local server metrics against thresholds using plain rules, with unit tests. Version 1 used an AI bot; those files are kept as history
 - [netplus-lab](https://github.com/KrisCyberSec/netplus-lab): free Network+ study app with subnetting, port, and OSI drills
 
 ---
