@@ -1,7 +1,7 @@
 # OWASP Web Application Security Lab
 
 ## Lab Overview
-Identified and exploited critical web application vulnerabilities using OWASP Juice Shop, demonstrating understanding of common attack vectors and security weaknesses in web applications.
+Identified and exploited web application vulnerabilities in OWASP Juice Shop, a deliberately vulnerable training application running on my own machine. The lab covers common attack vectors and how to fix them.
 
 ## Tools Used
 - **OWASP Juice Shop** - Intentionally vulnerable web application for security training
@@ -85,7 +85,7 @@ Successfully demonstrated exploitation of three critical OWASP Top 10 vulnerabil
 ### Attack Surface Analysis
 - Login forms vulnerable to SQL injection
 - Search functionality lacks input validation
-- Directory traversal and direct object reference weaknesses
+- Directory listing at `/ftp` exposed without authentication
 - Insufficient access controls on sensitive directories
 
 ### Risk Assessment
@@ -94,7 +94,7 @@ Successfully demonstrated exploitation of three critical OWASP Top 10 vulnerabil
 **Medium:** Information disclosure through exposed configuration files
 
 ## Skills Demonstrated
-- Web application penetration testing
+- Web application security testing (in a training environment)
 - OWASP Top 10 vulnerability exploitation
 - SQL injection techniques
 - Cross-Site Scripting (XSS) attacks
@@ -147,30 +147,31 @@ Successfully demonstrated exploitation of three critical OWASP Top 10 vulnerabil
 ## Screenshots
 
 ### Lab Setup
-![Juice Shop Homepage](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/08-juice-shop-homepage.png)
+![Juice Shop Homepage](images/08-juice-shop-homepage.png)
 *OWASP Juice Shop application homepage*
 
-![Application Startup](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/07-application-startup-terminal.png)
+![Application Startup](images/07-application-startup-terminal.png)
 *Juice Shop successfully deployed on localhost:3000*
 
 ### Vulnerability Exploitation
 
-![Score Board](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/06-score-board-overview.png)
+![Score Board](images/06-score-board-overview.png)
 *Score Board showing 172 total security challenges organized by OWASP category*
 
-![SQL Injection Success](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/5-sql-injection-success-banner.png)
+![SQL Injection Success](images/5-sql-injection-success-banner.png)
 *Successful authentication bypass using SQL injection*
 
-![SQL Injection Terminal](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/04-sql-injection-terminal.png)
+![SQL Injection Terminal](images/04-sql-injection-terminal.png)
 *Terminal confirmation of SQL injection challenge completion*
 
-![XSS Attack](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/03-xss-alert-popup.png)
+![XSS Attack](images/03-xss-alert-popup.png)
 *Cross-Site Scripting vulnerability demonstration*
 
-![Challenge Completion](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/02-score-board-challenge-solved.png)
+![Challenge Completion](images/02-score-board-challenge-solved.png)
 *Terminal showing multiple challenges solved*
 
-![FTP Directory Exposure](https://github.com/KrisCyberSec/Cybersecurity-Labs/blob/main/owasp-web-security-lab/images/01-ftp-directory-exposure.png)
+![FTP Directory Exposure](images/01-ftp-directory-exposure.png)
 *Unprotected FTP directory exposing sensitive files including password databases*
+
 ---
 *Lab completed as part of web application security skills development*

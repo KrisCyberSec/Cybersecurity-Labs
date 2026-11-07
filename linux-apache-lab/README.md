@@ -52,29 +52,36 @@ Deployed a Linux web server using Ubuntu and Apache on DigitalOcean cloud infras
 ### Web Server Configuration
 - Apache installed and configured successfully on first attempt
 - Web server immediately accessible from public internet
-- Default configuration provided secure, functional web service
+- Default configuration served the page with no extra setup
 - Custom content deployment completed without service interruption
 
 ### Network and Security
-- SSH remote access configured and secured
+- Managed the server over SSH as `root`
 - Public web service exposed on standard HTTP port 80
-- Server accessible globally at http://167.71.104.44
-- Basic web server hardening through default Ubuntu/Apache settings
+- Server was reachable from the internet at http://167.71.104.44
+- No hardening beyond Ubuntu/Apache defaults was done in this lab (see Next Steps)
 
 ## Live Demonstration
-**Public Server**: http://167.71.104.44 *(Active as of [9/16/2025])*
+**Public Server**: http://167.71.104.44 *(last confirmed active 9/16/2025; the droplet may no longer be running)*
 
-Successfully deployed a publicly accessible web server demonstrating cloud infrastructure and Linux administration skills.
+Deployed a publicly accessible web server on a cloud VM.
+
+## Next Steps (not done in this lab)
+- Create a non-root user with `sudo` and disable root SSH login
+- Switch to SSH key authentication and disable password login
+- Enable a firewall (`ufw`) allowing only SSH, HTTP, and HTTPS
+- Add HTTPS with a Let's Encrypt certificate
+- Turn on automatic security updates
 
 ## Skills Demonstrated
 - Cloud infrastructure deployment and management
 - Linux command-line proficiency and system administration
 - Web server installation and configuration
-- SSH remote access and security
+- SSH remote access
 - File system navigation and text editing
 - Package management and system updates
 - HTML content creation and deployment
-- Network troubleshooting and connectivity testing
+- Confirming a service is reachable from the public internet
 
 ## Technical Environment
 - **Cloud Provider**: DigitalOcean

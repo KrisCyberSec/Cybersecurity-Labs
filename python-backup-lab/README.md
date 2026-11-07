@@ -50,7 +50,7 @@ Created my first Python automation script to backup files, demonstrating program
 - **Error Reporting**: Shows clear success/failure messages
 - **Result Summary**: Displays count of successful and failed operations
 
-### Sample Code Structure
+### Sample Code (excerpt)
 ```python
 # Simple function to create backup folder
 def make_backup_folder():
@@ -63,3 +63,24 @@ def make_backup_folder():
     except:
         print("Could not create folder")
         return None
+```
+
+## Screenshots
+
+![Clean directory](01-clean-directory.png)
+*Starting directory*
+
+![Script development](02-script-development.png)
+*Writing the script*
+
+![Test file creation](03-test-file-creation.png)
+*Creating a test file to back up*
+
+![Script execution](04-script-execution.png)
+*Running the script*
+
+![Results verification](5-results-verification.png)
+*Checking the results*
+
+![Backup validation](06-backup-validation.png)
+*Validating the backup folder contents*

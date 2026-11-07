@@ -145,7 +145,7 @@ I also learned the importance of monitoring failed login attempts, implementing 
 Based on this investigation, here's what should be done:
 
 **Immediate Actions:**
-- Disable the compromised account (10.0.0.50)
+- Disable the account used from 10.0.0.50 (the logs identify only the source IP)
 - Force password reset for all admin accounts
 - Block external IP (203.0.113.45) at the firewall
 - Review all files accessed by the compromised account
@@ -159,7 +159,7 @@ Based on this investigation, here's what should be done:
 
 **Long-Term Improvements:**
 - Deploy a Web Application Firewall
-- Implement Data Loss Preventioncontrol s
+- Implement Data Loss Prevention controls
 - Increase logging detail for administrative actions
 - Regular security awareness training
 
@@ -167,7 +167,7 @@ Based on this investigation, here's what should be done:
 - SIEM: Splunk Cloud Platform (free trial)
 - Data Source: Apache Combined Access Logs
 - Query Language: Splunk Processing Language (SPL)
-- Dataset: 38 events containing normal and malicious activity
+- Dataset: 38 simulated events containing normal and malicious activity
 
 ## Screenshots
 
@@ -210,6 +210,9 @@ Based on this investigation, here's what should be done:
 *Critical finding - password and database file access*
 
 ### Dashboard and Detection
+![Brute Force Rule](images/12-brute-force-detection-rule.png)
+*Saved brute-force detection rule*
+
 ![Dashboard Creation](images/13-dashboard-creation.png)
 *Building the security monitoring dashboard*
 

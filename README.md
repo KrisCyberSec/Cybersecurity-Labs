@@ -1,57 +1,52 @@
-# Cybersecurity Labs Portfolio
+# Cybersecurity & Systems Labs
 
-This repository documents my hands-on cybersecurity learning journey through practical labs and projects.
+Hands-on labs I built while moving from customer-facing sales and technical support into systems administration and security. Each lab has its own folder with a write-up and screenshots.
 
-## Labs Completed
+**Certifications:** CompTIA Security+, CompTIA Network+, Microsoft AZ-900
 
-### 1. Network Traffic Analysis with Wireshark
-- Captured and analyzed 40,000+ network packets
-- Performed protocol analysis and stream following
-- Identified modern encryption patterns in web traffic
-- [View Lab Details](./wireshark-lab/)
+## Systems administration
 
-### 2. Linux Web Server Deployment with Apache
-- Deployed Ubuntu server on DigitalOcean cloud infrastructure
-- Installed and configured Apache web server
-- Live server accessible at http://167.71.104.44
-- [View Lab Details](./linux-apache-lab/)
+### Linux Web Server Deployment with Apache
+- Deployed an Ubuntu 22.04 server on DigitalOcean, connected over SSH, and updated it with `apt`
+- Installed Apache and served a custom page from the public IP
+- Hardening beyond Ubuntu/Apache defaults was not part of this lab
+- [View lab](./linux-apache-lab/)
 
-### 3. Python Backup Automation Script
-- Developed first Python automation script for file backup operations
-- Learned programming fundamentals and error handling concepts
-- Created timestamped backup system with user feedback
-- [View Lab Details](./python-backup-lab/)
+### Python Backup Automation Script
+- My first Python script: creates timestamped backup folders and copies files into them
+- Checks that files exist first, reports successes and failures, and handles errors with `try/except`
+- [View lab](./python-backup-lab/)
 
-### 4. OWASP Web Application Security Testing
-- Exploited SQL injection, XSS, and access control vulnerabilities
-- Demonstrated OWASP Top 10 security flaw identification
-- Performed ethical penetration testing on vulnerable application
-- [View Lab Details](./owasp-web-security-lab/)
+## Security and monitoring
 
-- ### 5. Splunk SIEM Lab - Security Monitoring and Threat Detection
-- Deployed Splunk Cloud SIEM platform for log analysis
-- Investigated brute force attacks and data exfiltration incidents
-- Created security dashboards and detection rules using SPL
-- Detected critical insider threat and prevented external attack
-- [View Lab Details](./splunk-siem-lab/)
-  
-## Skills Demonstrated
-- Network packet analysis
-- Protocol identification  
-- Traffic pattern recognition
-- Cloud infrastructure deployment and management
-- Linux command-line proficiency and system administration
-- Web server installation and configuration
-- SSH remote access and security
+### Splunk SIEM Lab
+- Ingested 38 simulated Apache log events into Splunk Cloud
+- Used SPL to investigate brute-force logins, sensitive file access, and a large download
+- Built a three-panel dashboard and saved three detection searches
+- [View lab](./splunk-siem-lab/)
+
+### Network Traffic Analysis with Wireshark
+- Captured and analyzed 40,000+ packets of normal browsing traffic
+- Used protocol filters, stream following, Protocol Hierarchy, and Expert Information
+- [View lab](./wireshark-lab/wireshark-lab/)
+
+### OWASP Web Application Security Testing
+- Exploited SQL injection, XSS, and an unprotected `/ftp` directory in OWASP Juice Shop, a deliberately vulnerable training app
+- Mapped each finding to the OWASP Top 10 with mitigations
+- [View lab](./owasp-web-security-lab/)
+
+## Skills practiced
+- Linux command line, `apt`, SSH, cloud VM setup (DigitalOcean)
+- Apache installation and basic configuration
+- Python scripting for file automation
+- Splunk and SPL: log analysis, dashboards, detection searches
+- Packet analysis with Wireshark
+- Web application security testing in a training environment (OWASP Top 10)
 - Technical documentation
-- Web application penetration testing
-- OWASP Top 10 vulnerability exploitation
-- Application security assessment
-- SIEM platform operations (Splunk)
-- Splunk Processing Language (SPL)
-- Security log analysis and correlation
-- Threat hunting and incident investigation
-- Security dashboard development
+
+## Related projects
+- [infra-health-monitor](https://github.com/KrisCyberSec/infra-health-monitor): simulated server metrics analyzed by an AI monitoring bot
+- [netplus-lab](https://github.com/KrisCyberSec/netplus-lab): free Network+ study app with subnetting, port, and OSI drills
 
 ---
-*Learning cybersecurity through hands-on practice*
+*Learning by building.*
