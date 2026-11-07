@@ -73,6 +73,8 @@ Deployed a publicly accessible web server on a cloud VM.
 - Add HTTPS with a Let's Encrypt certificate
 - Turn on automatic security updates
 
+Step-by-step commands for all of these are in [HARDENING.md](./HARDENING.md). It is a guide I have not run yet.
+
 ## Skills Demonstrated
 - Cloud infrastructure deployment and management
 - Linux command-line proficiency and system administration
