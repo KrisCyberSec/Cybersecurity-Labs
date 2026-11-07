@@ -1,12 +1,15 @@
 # Splunk SIEM Lab - Security Monitoring and Threat Detection
 
 ## Overview
-This lab focuses on using Splunk Cloud to analyze web server logs and detect security threats. I set up a cloud-based SIEM environment, ingested sample Apache logs containing simulated attacks, and performed incident investigation using SPL queries. The goal was to gain hands-on experience with log analysis, threat hunting, and building detection rules.
+
+This lab uses Splunk Cloud on a sample Apache log that contains simulated attack rows. The source name visible in the search screenshots is `sample-apache-logs.txt.rtf`. The log file itself is not in this repository. Findings below are about that sample. They are not a live incident, and the recommendations are exercise conclusions, not changes made on a production system.
+
+Screenshots checked against the prose on 2026-11-07: `07-data-loaded-search-results.png` (38 events), `08-failed-logins-401.png` (10 events with `status=401`), `09-brute-force-by-ip.png` (`10.0.0.50` and `203.0.113.45`, 5 events each in that view), `10-attack-timeline-internal.png` (13 rows for `10.0.0.50`), `11-external-attacker-activity.png` (6 rows for `203.0.113.45`), `11-sensitive-data-access.png`, `12-brute-force-detection-rule.png`, and `18-data-exfiltration-detection.png`. `203.0.113.45` is inside the [RFC 5737](https://www.rfc-editor.org/info/rfc5737) documentation range `203.0.113.0/24`.
 
 ## Tools and Technologies
-- **Splunk Cloud Platform** - Cloud-based SIEM solution
-- **Apache Web Server Logs** - Sample dataset with embedded security incidents
-- **Splunk Processing Language (SPL)** - Query language for searching and analyzing log data
+- **Splunk Cloud Platform** - Cloud trial, as shown by the `splunkcloud.com` host in the search screenshots
+- **Apache Web Server Logs** - Sample file named `sample-apache-logs.txt.rtf` in the screenshots. Not committed here
+- **Search Processing Language (SPL)** - Query language used in the searches below
 
 ## What I Did
 
@@ -48,16 +51,17 @@ index="main" sourcetype="access_combined" clientip="10.0.0.50"
 | table _time clientip status uri_path
 ```
 
-The timeline showed a clear progression:
-1. Multiple rapid login failures around 1:23 PM
-2. Successful authentication at 3:02 PM
-3. Immediate access to admin dashboard and user lists
-4. Access to sensitive files: `database.xml` and `passwords.txt`
-5. Attempted path traversal attack to `/../../etc/passwd` (this failed with 404)
-6. Downloaded admin logs (possibly to cover tracks)
-7. Large data download of 2.4MB through `/admin/download`
+`10-attack-timeline-internal.png` lists 13 events for this IP. In time order they are:
 
-This was more than just a compromised account. It showed intentional malicious activity including reconnaissance, credential theft, and data exfiltration.
+1. Five `401` responses for `/admin/login` at 13:23:11, 13:23:14, 13:23:17, 13:23:20, and 13:23:23
+2. `200` for `/admin/login` at 13:23:26
+3. `200` for `/admin/dashboard` at 14:55:10 and `/admin/users` at 14:56:45
+4. `200` for `/admin/config/database.xml` at 14:58:33 and `/admin/config/passwords.txt` at 15:02:18
+5. `404` for `/../../etc/passwd` at 15:25:55
+6. `200` for `/admin/logs/access.log` at 15:26:12
+7. `200` for `/admin/download` at 17:15:33 (`18-data-exfiltration-detection.png` shows this row and does not show a byte count)
+
+An earlier version of this list said authentication succeeded at 3:02 PM. The screenshot places the `200` login at 13:23:26. The 15:02:18 row is `passwords.txt`, not the login. The 2.4MB figure is not printed on the screenshots named in the overview. The sample shows those URLs and status codes. It does not show that a credential file was opened, that logs were wiped, or that anyone responded on a live network.
 
 #### Checking the External Attacker
 I ran the same analysis on the external IP:
@@ -65,7 +69,7 @@ I ran the same analysis on the external IP:
 index="main" sourcetype="access_combined" clientip="203.0.113.45"
 ```
 
-All login attempts failed. The attacker only successfully loaded the login page (GET request with 200 status) but every authentication attempt (POST request) returned 401. This attack was unsuccessful.
+`11-external-attacker-activity.png` shows 6 rows for this address, all to `/admin/login`: a `200` at 18:22:10, then `401` at 18:22:33, 18:22:36, 18:22:39, 18:22:45, and 18:22:48. The table does not include the HTTP method. An earlier version of this section said every authentication attempt failed and that the `200` was a GET of the login page. That method split is not in the screenshot. `08-failed-logins-401.png` does show `POST /admin/login` with status 401 for this address among the 10 failed-login events.
 
 #### Detecting Sensitive File Access
 I created a detection query to find any access to critical files:
@@ -75,7 +79,7 @@ index="main" sourcetype="access_combined" status=200
 | table _time clientip uri_path
 ```
 
-This caught the two critical file accesses by the internal attacker - direct evidence of data compromise.
+The screenshot `11-sensitive-data-access.png` shows two `200` rows: `/admin/config/passwords.txt` at 15:02:18 and `/admin/config/database.xml` at 14:58:33, both from `10.0.0.50`. The image does not show the file bodies.
 
 #### Finding Data Exfiltration
 To detect large downloads, I searched for successful access to download endpoints:
@@ -84,7 +88,7 @@ index="main" sourcetype="access_combined" uri_path="*/download*" status=200
 | table _time clientip uri_path
 ```
 
-This confirmed a 2.4MB download by the compromised account.
+`18-data-exfiltration-detection.png` shows one `200` row for `/admin/download` from `10.0.0.50` at 17:15:33. It does not show a response size. The 2.4MB figure is not in that screenshot.
 
 ### Building a Security Dashboard
 I created a monitoring dashboard with three visualizations:
@@ -94,7 +98,7 @@ I created a monitoring dashboard with three visualizations:
 index="main" sourcetype="access_combined" status=401 
 | timechart count by clientip
 ```
-This shows authentication failures in real-time, making it easy to spot brute force patterns.
+This counts `401` events by client IP across the sample. The screenshots use an "All time" range on a static file, not a live stream.
 
 **Panel 2: Login Success vs Failure Rate**
 ```
@@ -102,7 +106,7 @@ index="main" sourcetype="access_combined"
 | eval login_status=if(status=200,"Success","Failed")
 | stats count by login_status
 ```
-A pie chart showing the overall ratio of successful vs failed requests.
+A pie chart of the query above. The `eval` labels every HTTP 200 as `Success` and every other status as `Failed`, so the chart is not limited to login requests.
 
 **Panel 3: Most Accessed Resources**
 ```
@@ -114,59 +118,59 @@ index="main" sourcetype="access_combined"
 Bar chart showing which pages/files are being accessed most frequently.
 
 ### Creating Detection Rules
-I saved three reports that could be used as automated alerts:
+The write-up describes three searches that could be saved as alerts. `12-brute-force-detection-rule.png` shows the first query as a New Search, not an enabled alert. This folder does not show alert actions turned on.
 
-1. **Brute Force Detection** - Flags any IP with 3+ failed logins
-2. **Sensitive File Access** - Alerts on access to passwords, configs, or database files
-3. **Data Exfiltration** - Detects large downloads from sensitive endpoints
+1. **Brute Force Detection** - `status=401`, then `stats count by clientip` where count is at least 3. The screenshot shows count 5 for both `10.0.0.50` and `203.0.113.45`.
+2. **Sensitive File Access** - `200` responses whose path matches passwords, database, or config, as in the query above
+3. **Data Exfiltration** - the query matches `/download*` with status 200. It does not filter on bytes, so it does not by itself detect a large download
 
 ## Key Findings
 
-The internal IP (10.0.0.50) represents a critical security incident:
-- Successfully compromised authentication after 5 attempts
-- Accessed two highly sensitive files containing credentials and database configurations
-- Attempted path traversal attack (blocked)
-- Exfiltrated 2.4MB of data
-- Severity: **CRITICAL** - Immediate response required
+In the sample, internal IP `10.0.0.50`:
+- Five `401` responses on `/admin/login`, then a `200` on that path
+- `200` responses for `/admin/config/database.xml` and `/admin/config/passwords.txt`
+- A path-style URL `/../../etc/passwd` returned `404`
+- A `200` on `/admin/download`, with no byte count in the screenshots reviewed on 2026-11-07
+- The exercise rating recorded with this lab was **CRITICAL**. That rating was not a ticket on a live system
 
-The external IP (203.0.113.45) was blocked:
-- All 5 authentication attempts failed
-- Never gained system access
-- Severity: **LOW** - Should be monitored and potentially blocked at firewall
+In the sample, `203.0.113.45` ([RFC 5737](https://www.rfc-editor.org/info/rfc5737) documentation range):
+- `11-external-attacker-activity.png` shows 6 rows, all `/admin/login`: one `200` at 18:22:10 and five `401`s. That table does not show the HTTP method
+- `08-failed-logins-401.png` shows `POST /admin/login` with status 401 for this address
+- The exercise rating recorded with this lab was **LOW**
 
 ## What I Learned
 
-This lab gave me practical experience with SIEM operations and log analysis. I learned how to use SPL to search through logs, identify attack patterns, and build detection rules. The most interesting part was seeing how an attacker progresses after initial access. From reconnaissance to data theft.
+This lab gave me practical experience with SIEM operations and log analysis. I learned how to use SPL to search through logs, identify attack patterns, and build detection rules. The sample rows show a progression of URLs after the `200` on `/admin/login`. That is the sample, not a live intrusion.
 
-I also learned the importance of monitoring failed login attempts, implementing account lockout policies, and restricting access to sensitive files. The dashboard I built could be used in a real SOC to provide visibility into authentication activity and potential threats.
+I also learned the importance of monitoring failed login attempts, implementing account lockout policies, and restricting access to sensitive files. The dashboard screenshots are from this 38-event sample. They are not a deployment in a SOC.
 
 ## Security Recommendations
 
-Based on this investigation, here's what should be done:
+Hypothetical follow-ups for this sample. None of these actions were performed on a live system as part of the lab. `10.0.0.50` is a client IP in the log, not an account name. On the `401` rows in `08-failed-logins-401.png`, the ident field is `admin`.
 
 **Immediate Actions:**
-- Disable the compromised account (10.0.0.50)
-- Force password reset for all admin accounts
-- Block external IP (203.0.113.45) at the firewall
-- Review all files accessed by the compromised account
-- Check for any additional data exfiltration
+- Treat client IP 10.0.0.50 as the source to investigate in the sample
+- Force password reset for admin accounts in a system that actually had this log
+- Block 203.0.113.45 at a firewall only if it were a real source; it is a documentation-range address
+- Review the URLs that returned `200` for 10.0.0.50
+- Look for further download URLs in the same sample
 
 **Short-Term Fixes:**
 - Implement account lockout after 3 failed attempts
 - Enable multi-factor authentication for admin accounts
 - Move sensitive files out of web accessible directories
-- Set up real-time alerts for the detection rules I created
+- The write-up describes three saved searches that could become alerts. The screenshots show the queries. This folder does not show that alerts were turned on
 
 **Long-Term Improvements:**
 - Deploy a Web Application Firewall
-- Implement Data Loss Preventioncontrol s
+- Implement data-loss-prevention controls
 - Increase logging detail for administrative actions
 - Regular security awareness training
 
 ## Environment Details
 - SIEM: Splunk Cloud Platform (free trial)
 - Data Source: Apache Combined Access Logs
-- Query Language: Splunk Processing Language (SPL)
+- Query Language: Search Processing Language (SPL)
 - Dataset: 38 events containing normal and malicious activity
 
 ## Screenshots
@@ -204,32 +208,35 @@ Based on this investigation, here's what should be done:
 *Timeline of internal attacker activity*
 
 ![External Attacker](images/11-external-attacker-activity.png)
-*External attack attempts (all blocked)*
+*Six rows for 203.0.113.45, all /admin/login: one 200 at 18:22:10 and five 401s. The HTTP method is not in the table.*
 
 ![Sensitive Files](images/11-sensitive-data-access.png)
-*Critical finding - password and database file access*
+*Two 200 rows for 10.0.0.50: passwords.txt at 15:02:18 and database.xml at 14:58:33. File contents are not shown.*
+
+![Brute Force Counts](images/12-brute-force-detection-rule.png)
+*status=401, stats count by clientip where count >= 3. Both sample IPs have count 5. The screen is a New Search, not an enabled alert.*
 
 ### Dashboard and Detection
 ![Dashboard Creation](images/13-dashboard-creation.png)
-*Building the security monitoring dashboard*
+*Empty editor for a dashboard titled Web Security Monitoring Dashboard.*
 
 ![Failed Logins Chart](images/14-failed-logins-chart.png)
-*Visualization of authentication failures*
+*Same dashboard in edit mode with one column chart, Failed Login Attempts Over Time. Both IPs appear on Mon Oct 13.*
 
 ![Dashboard Upper](images/15a-dashboard-upper-panels.png)
-*Dashboard showing login trends*
+*Column chart of the two IPs on Oct 13, and a pie chart titled Login Success vs Failure Rate. The pie image has no counts printed on it.*
 
 ![Dashboard Lower](images/15b-dashboard-lower-panels.png)
-*Most accessed resources panel*
+*Bar chart titled Top 10 Most Accessed Resources. /admin/login is the long bar.*
 
 ![Brute Force Query](images/16-brute-force-detection-query.png)
-*Detection rule for brute force attacks*
+*New Search, not an alert. status=401, count by clientip where count is at least 3. Both IPs are 5. Time range Last 7 days.*
 
 ![Sensitive File Detection](images/17-sensitive-file-access-detection.png)
-*Alert for critical file access*
+*The window title is truncated to "Brute Force Detectio..." while the query is the sensitive-path search. It returns the same two 200 rows. No alert action is shown.*
 
 ![Data Exfiltration](images/18-data-exfiltration-detection.png)
-*Detection query for large downloads*
+*The window title is truncated to "Sensitive File Access ..." while the query matches download URLs with status 200. One row, /admin/download, with no byte count.*
 
 ---
 
